@@ -1,0 +1,220 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>ubercookie</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ubercookie produces extremely persistent Cookies in your browser using Audio and Graphics fingerprinting techniques.">
+    <meta property="image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="author" content="Robin Linus" />
+    <meta property="og:title" content="Are You Trackable?" />
+    <meta property="og:image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="og:image:url" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="og:site_name" content="ubercookie" />
+    <meta property="og:type" content="article" />
+    <meta property="og:author" content="https://facebook.com/RobinLinus" />
+    <meta property="fb:pages" content="451189218422617" />
+    <meta property="fb:profile_id" content="451189218422617" />
+    <meta property="og:url" content="http://ubercookie.robinlinus.com/" />
+    <meta property="fb:app_id" content="1527795287522439" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Are You Trackable?">
+    <meta name="twitter:image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta name="twitter:description" content="Ubercookie produces extremely persistent Cookies in your browser using Audio and Graphics fingerprinting techniques.">
+    <meta name="twitter:creator:id" content="4675481071">
+    <meta name="author" content="Robin Linus" />
+    <style type="text/css">
+    body {
+        background: #efefef;
+        overflow: hidden;
+        color: #030303;
+    }
+    
+    .content {
+        text-align: center;
+        padding: 40px 16px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, sans-serif;
+        line-height: 21px;
+    }
+    
+    h4 {
+        margin: 8px;
+    }
+    
+    #uuid {
+        word-break: break-all;
+        margin-top: 16px;
+        font-weight: bold;
+    }
+    
+    img {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        line-height: 50px;
+        text-align: center;
+        width: 256px;
+        height: 256px;
+    }
+    
+    a {
+        text-decoration: none;
+        color: rgb(255, 64, 129);
+    }
+    
+    #explanation {
+        max-width: 480px;
+        margin: 0 auto;
+    }
+    
+    footer {
+        background: #424242;
+        margin-top: 64px;
+        padding: 16px;
+        font-size: 16px;
+        text-align: center;
+        font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    }
+    
+    footer a {
+        color: white;
+    }
+    
+    @media only screen and (max-device-width: 480px) {
+        .content {
+            padding-top: 4px;
+        }
+        #uuid {
+            font-size: 12px;
+        }
+        footer {
+            display: none;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <h2>Are You Trackable?</h2>
+        <h4>Your Fingerprint:</h4>
+        <img id="identicon" width="256" height="256" src="placeholder.png">
+        <div id="uuid">&nbsp;</div>
+        <div id="explanation">
+            <br>Try to get rid of this fingerprint by deleting cookies, using incognito mode, or try hiding with a Tor Browser.</i>
+        </div>
+        <br>
+        <a href="faq.html">Frequently Asked Questions</a>
+    </div>
+    <script>
+    function getAudioFP(callback) {
+        // Details: https://audiofingerprint.openwpm.com/
+        var hybrid_output = [];
+
+        var audioCtx = new(window.AudioContext || window.webkitAudioContext),
+            oscillator = audioCtx.createOscillator(),
+            analyser = audioCtx.createAnalyser(),
+            gain = audioCtx.createGain(),
+            scriptProcessor = audioCtx.createScriptProcessor(4096, 1, 1),
+            compressor, bins;
+
+        // Create and configure compressor
+        compressor = audioCtx.createDynamicsCompressor();
+        compressor.threshold && (compressor.threshold.value = -50);
+        compressor.knee && (compressor.knee.value = 40);
+        compressor.ratio && (compressor.ratio.value = 12);
+        compressor.reduction && (compressor.reduction.value = -20);
+        compressor.attack && (compressor.attack.value = 0);
+        compressor.release && (compressor.release.value = .25);
+
+        gain.gain.value = 0; // Disable volume
+        oscillator.type = 'triangle'; // Set oscillator to output triangle wave
+        oscillator.connect(compressor); // Connect oscillator output to dynamic compressor
+        compressor.connect(analyser); // Connect compressor to analyser
+        analyser.connect(scriptProcessor); // Connect analyser output to scriptProcessor input
+        scriptProcessor.connect(gain); // Connect scriptProcessor output to gain input
+        gain.connect(audioCtx.destination); // Connect gain output to audiocontext destination
+
+        scriptProcessor.onaudioprocess = function(bins) {
+            bins = new Float32Array(analyser.frequencyBinCount);
+            analyser.getFloatFrequencyData(bins);
+            for (var i = 0; i < bins.length; i = i + 1) {
+                hybrid_output.push(bins[i]);
+            }
+            analyser.disconnect();
+            scriptProcessor.disconnect();
+            gain.disconnect();
+            var audioFp = JSON.stringify(hybrid_output);
+            callback(audioFp);
+        };
+
+        oscillator.start(0);
+    }
+
+
+
+    var getClientRectsFP = function() {
+        // Details: http://jcarlosnorte.com/security/2016/03/06/advanced-tor-browser-fingerprinting.html
+        var elem = document.createElement('div');
+        var s = elem.style;
+        s.position = 'absolute';
+        s.left = '3.1px';
+        s.top = '2.1px';
+        s.zIndex = '-100';
+        s.visibility = 'hidden';
+        s.fontSize = '19.123px';
+        s.transformOrigin = '0.1px 0.2px 0.3px';
+        s.webkitTransformOrigin = '0.1px 0.2px 0.3px';
+        s.webkitTransform = 'scale(1.01123) matrix3d(0.251106, 0.0131141, 0, -0.000109893, -0.0380797, 0.349552, 0, 7.97469e-06, 0, 0, 1, 0, 575, 88, 0, 1)';
+        s.transform = 'scale(1.01123) matrix3d(0.251106, 0.0131141, 0, -0.000109893, -0.0380797, 0.349552, 0, 7.97469e-06, 0, 0, 1, 0, 575, 88, 0, 1)';
+        elem.innerHTML = '<h1>Sed ut perspiciatis unde</h1>pousdfnmv<b>asd<i id="target">asd</i></b>';
+        document.body.appendChild(elem);
+
+        var uuid = '';
+        var rect = document.getElementById('target').getClientRects()[0];
+        for (var key in rect) {
+            uuid += rect[key];
+        }
+
+        if (elem.remove) elem.remove();
+        return uuid;
+    };
+
+    function computeHash() {
+        console.log('AudioFP begin');
+        getAudioFP(function(audioFP) {
+            console.log('AudioFP finish');
+            console.log('ClientRectsFP begin');
+            var clientRectsFP = getClientRectsFP();
+            console.log('ClientRectsFP finish');
+            var hash = CryptoJS.SHA1(clientRectsFP + audioFP).toString();
+            document.getElementById('uuid').innerHTML = hash;
+            updateIdenticon(document.getElementById('identicon'), hash);
+        });
+    }
+    document.addEventListener("DOMContentLoaded", function(event) {
+        computeHash();
+    });
+
+    //Fix iOS AudioContext on Safari https://gist.github.com/kus/3f01d60569eeadefe3a1
+    var fixAudioContext = function(e) {
+        computeHash();
+        // Remove events
+        document.removeEventListener('touchstart', fixAudioContext);
+        document.removeEventListener('touchend', fixAudioContext);
+    };
+    // iOS 6-8
+    document.addEventListener('touchstart', fixAudioContext);
+    // iOS 9
+    document.addEventListener('touchend', fixAudioContext);
+    document.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+    });
+    </script>
+    <script src="libs.js" onload="//cmputeHash()"></script>
+</body>
+
+</html>

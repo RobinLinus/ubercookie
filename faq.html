@@ -1,0 +1,118 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #efefef;
+        color: #030303;
+        box-sizing: border-box;
+        font-family: 'Roboto', 'Helvetica Neue', Helvetica, sans-serif;
+        line-height: 21px;
+    }
+    
+    .content {
+        padding: 40px 16px;
+        max-width: 780px;
+        margin: 0 auto;
+    }
+    
+    a {
+        text-decoration: none;
+        color: rgb(255, 64, 129);
+    }
+    
+    footer {
+        background: #424242;
+        margin-top: 64px;
+        padding: 16px;
+        font-size: 16px;
+        text-align: center;
+        font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+        color: white;
+        cursor: pointer;
+    }
+
+    footer:hover{
+        text-decoration: underline;
+    }
+
+    </style>
+    <title>ubercookie FAQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ubercookie produces extremely persistent Cookies in your browser using Audio and Graphics fingerprinting techniques.">
+    <meta property="image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="author" content="Robin Linus" />
+    <meta property="og:title" content="Are You Trackable?" />
+    <meta property="og:image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="og:image:url" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta property="og:site_name" content="ubercookie" />
+    <meta property="og:type" content="article" />
+    <meta property="og:author" content="https://facebook.com/RobinLinus" />
+    <meta property="fb:pages" content="451189218422617" />
+    <meta property="fb:profile_id" content="451189218422617" />
+    <meta property="og:url" content="http://ubercookie.robinlinus.com/" />
+    <meta property="fb:app_id" content="1527795287522439" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Are You Trackable?">
+    <meta name="twitter:image" content="http://ubercookie.robinlinus.com/ubercookie-logo-large.png" />
+    <meta name="twitter:description" content="Ubercookie produces extremely persistent Cookies in your browser using Audio and Graphics fingerprinting techniques.">
+    <meta name="twitter:creator:id" content="4675481071">
+    <meta name="author" content="Robin Linus" />
+</head>
+
+<body>
+    <div class="content">
+        <h1>FAQ</h1>
+        <a href="/"><h3>Back to Demo</h3></a>
+        <h2>What's the point of ubercookie?</h2> Think of it as a 2016 version of <a href="http://samy.pl/evercookie/" target="_blank">Samy Kamkar's evercookie</a> from 2010:
+        <br>
+        <i>"evercookie is a javascript API available that produces
+    extremely persistent cookies in a browser. Its goal
+    is to identify a client even after they've removed standard
+    cookies, Flash cookies (Local Shared Objects or LSOs), and
+    others."
+    </i>
+        <br>
+        <br> The only difference is, that ubercookie doesn't store any data to identify you. It just does some fancy computations in your browser and the results are unique to the details of your personal setup.
+        <br>
+        <br> The point of ubercookie is to demonstrate the impact of two fingerprinting techniques discovered recently, to raise awareness for these issues, and to push the browser vendors to fix them.
+        <h2>How does it work?</h2> Ubercookie uses two Javascript-APIs to create a fingerprint of your hardware, OS, and browser engine:
+        <ul>
+            <li><a target="_blank" href="https://audiofingerprint.openwpm.com/">AudioContext</a></li>
+            <li><a target="_blank" href="http://jcarlosnorte.com/security/2016/03/06/advanced-tor-browser-fingerprinting.html">getClientRects</a> (Advanced Tor Browser Fingerprinting)</li>
+        </ul>
+        <h2>Does it work X-Domains?</h2> Yes, x-domain tracking is easy because the fingerprinting is completely independent of the Same-origin policy.
+        <h2>Does it work X-Browsers?</h2> It depends. As long as the two browsers are based on the same engine it works. On iOS it works between all browsers, on desktop between Chrome and Opera, and even between Firefox and the Tor Browser.
+        <br>Additionally the fingerprints seem to be mostly persistant between different versions of a browser on a certain system.
+        <h2>How unique is my fingerprint?</h2> I'm not quite sure, because there is not enough data yet. Though fingerprints were all unique among the devices I tested by hand and with <a href="https://www.browserstack.com/">Browser Stack</a>.
+        <br>
+        <h2>How can I protect myself?</h2> Currently the only way to really protect yourself from getting tracked by this techniques is to use <a href="https://noscript.net">NoScript</a>. Hopefully the browser vendors will come up with a better solution soon.
+        <h2>Do you track me?</h2> Nope. Ubercookie doesn't store any data. Everything stays on your device.
+        <h2>Further Resources</h2>
+        <ul>
+            <li><a target="_blank" href="http://people.scs.carleton.ca/~paulv/papers/acsac2016-device-fingerprinting.pdf">Summary of 29 tracking methods</a></li>
+            <li>The Tor Project is aware of these issues. Find the discussions <a target="_blank" href="https://trac.torproject.org/projects/tor/ticket/13017">here</a>, <a target="_blank" href="https://trac.torproject.org/projects/tor/ticket/13018">here</a>, and <a target="_blank" href="https://trac.torproject.org/projects/tor/ticket/18500">here</a>.</li>
+            <li><a target="_blank" href="https://arxiv.org/pdf/1503.01408.pdf">Hardware Fingerprinting Using HTML5</a></li>
+            <li><a target="_blank" href="http://www.radicalresearch.co.uk/lab/hstssupercookies">HSTS Super Cookies</a></li>
+            <li><a target="_blank" href="https://panopticlick.eff.org/">Panopticlick</a></li>
+            <li><a target="_blank" href="https://github.com/Valve/fingerprintjs2">FingerprintJS2</a></li>
+        </ul>
+    </div>
+    <a href="http://twitter.com/robin_linus" target="_blank" id="about">
+        <footer>
+            Built with ♥ by Robin Linus
+        </footer>
+    </a>
+</body>
+
+</html>
