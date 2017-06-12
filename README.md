@@ -10,6 +10,6 @@ Ubercookie produces extremely persistent Cookies in your browser using Audio and
 
 
 
-##  [About](https://robinlinus.github.io)
+##  [About](https://nimiq.com)
 
-This is an open source contribution by [RobinLinus - Security, Privacy & Blockchain Consulting](https://robinlinus.github.io)
+This is an open source contribution by [Nimiq: the first browser-based Blockchain & Ecosytem](https://nimiq.com)
